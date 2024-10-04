@@ -10,9 +10,9 @@ export const TypeORMConfig: TypeOrmModuleAsyncOptions = {
     password: process.env.DB_PASSWORD,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}'],
-    synchronize: true,
+    synchronize: true, // ! TODO: verify this in production
     migrationsRun: true,
     migrationsTableName: 'migrations_TypeORM',
-    migrationsTransactionMode: 'all'
+    migrationsTransactionMode: 'all',
   })
 };
