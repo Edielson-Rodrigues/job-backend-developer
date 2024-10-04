@@ -73,7 +73,7 @@ export class ReviewEntity implements IReview {
   @Column({
     name: 'updated_at',
     type: 'timestamp',
-    nullable: false
+    nullable: true
   })
   updatedAt: Date;
 

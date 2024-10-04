@@ -6,7 +6,7 @@ import { TypeORMConfig } from './config/typeorm.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: true
     }),
     TypeOrmModule.forRootAsync(TypeORMConfig)
   ],

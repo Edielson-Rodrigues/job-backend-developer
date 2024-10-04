@@ -1,0 +1,39 @@
+services:
+  api:
+    env_file: ./.env.production
+    container_name: api
+    build:
+      context: ./
+    ports:
+      - $API_PORT:$API_PORT
+    environment:
+      - DB_HOST=$DB_HOST
+      - DB_USER=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DB_PORT
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    env_file: ./.env.production
+    container_name: db
+    image: mysql:5.7
+    ports:
+      - $DB_PORT:$DB_PORT
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
+      - MYSQL_PASSWORD=$DB_PASSWORD
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$DB_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  db_data: {}

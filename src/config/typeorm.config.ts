@@ -13,6 +13,6 @@ export const TypeORMConfig: TypeOrmModuleAsyncOptions = {
     synchronize: true, // ! TODO: verify this in production
     migrationsRun: true,
     migrationsTableName: 'migrations_TypeORM',
-    migrationsTransactionMode: 'all',
+    migrationsTransactionMode: 'all'
   })
 };
