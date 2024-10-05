@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { IReview } from "./review.interface";
+import { IReview, Rating } from "./review.interface";
 
 @Entity({ name: 'review' })
 export class ReviewEntity implements IReview {
@@ -23,11 +23,12 @@ export class ReviewEntity implements IReview {
     name: 'movie_release',
     nullable: false
   })
-  movieRelease: Date;
+  movieRelease: string;
 
   @Column({
+    type: 'float',
     name: 'imdb_rating',
-    nullable: false
+    nullable: true
   })
   imdbRating: number;
 
@@ -42,7 +43,7 @@ export class ReviewEntity implements IReview {
     name: 'duration',
     nullable: false
   })
-  movieDuration: number;
+  movieDuration: string;
 
   @Column({
     type: 'varchar',
@@ -56,6 +57,19 @@ export class ReviewEntity implements IReview {
     nullable: false
   })
   actors: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: false
+  })
+  writer: string;
+
+  @Column({
+    type: 'json',
+    nullable: false
+  })
+  ratings: Array<Rating>;
 
   @Column({
     type: 'int',
