@@ -9,6 +9,8 @@ import { UpdateReviewDto } from '../dtos/update-review.dto';
 import { ReviewResponseDTO } from '../dtos/review-response.dto';
 import { GetReviewService } from '../services/get-review.service';
 import { PaginationPipe } from 'src/utils/pipes/pagination.pipe';
+import { FilterReviewPipe } from 'src/utils/pipes/filter-review.pipe';
+import { SortReviewPipe } from 'src/utils/pipes/sort-review.pipe';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
@@ -59,11 +61,24 @@ export class ReviewsController {
   @Get()
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
-  @ApiQuery({ name: "filter", required: false, type: String, description: "Filter reviews by movie title | actor | director" })
-  @ApiQuery({ name: "sort", required: false, type: String, description: "Sort reviews by movie by released date | rating" })
-  @ApiQuery({ name: "order", required: false, type: String, description: "Order by asc | desc" })
-  public async get(@Query('page', PaginationPipe) page: number, @Query('limit', PaginationPipe) limit: number) {
-    return await this.getReviewService.all(page, limit);
+  @ApiQuery({ name: "filter", required: false, type: String, example: "actor", description: "Filter reviews by movie (title | actor | director)" })
+  @ApiQuery({ name: "sort", required: false, type: String, example: "released", description: "Sort reviews by movie (releasedDate | rating)" })
+  @ApiQuery({ name: "order", required: false, type: String, example: "asc", description: "Order by (asc | desc)" })
+  public async get(
+    @Query('page', PaginationPipe) page: number,
+    @Query('limit', PaginationPipe) limit: number,
+    @Query('filter', FilterReviewPipe) filter: string,
+    @Query('sort', SortReviewPipe) sort: string,
+    @Query('order') order: string
+  ) {
+    return await this.getReviewService.all({
+      page,
+      limit
+    }, {
+      filter,
+      sort,
+      order
+    });
   }
 
   @Delete("/:id")

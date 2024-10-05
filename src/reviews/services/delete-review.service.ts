@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { ReviewRepository } from "../repositories/rewiew.repository";
 
 @Injectable()
 export class DeleteReviewService {
   constructor(
-    private readonly reviewRepository: ReviewRepository
+    @Inject("IReviewRepository") private readonly reviewRepository: ReviewRepository
   ) {}
   
   public async execute(id: number): Promise<{ 

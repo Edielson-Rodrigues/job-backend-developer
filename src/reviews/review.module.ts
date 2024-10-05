@@ -20,7 +20,10 @@ import { GetReviewService } from './services/get-review.service';
     UpdateReviewService,
     GetReviewService,
     DeleteReviewService,  
-    ReviewRepository
+    {
+      provide: 'IReviewRepository',
+      useClass: ReviewRepository
+    }
   ]
 })
 export class ReviewModule {}

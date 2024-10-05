@@ -9,7 +9,7 @@ import { ReviewResponseDTO } from '../dtos/review-response.dto';
 @Injectable()
 export class CreateReviewService {
   constructor(
-    private readonly reviewRepository: ReviewRepository,
+    @Inject("IReviewRepository") private readonly reviewRepository: ReviewRepository,
     @Inject("IMovieProvider") private readonly movieProvider: IMovieProvider
   ) {}
 
