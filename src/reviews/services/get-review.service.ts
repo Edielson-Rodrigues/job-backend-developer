@@ -27,7 +27,6 @@ export class GetReviewService {
       argumentsPagination,
       filters
     );
-
     return new PaginationReviewResponseDTO({
       message: "Reviews found successfully",
       meta: reviews.meta,

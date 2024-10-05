@@ -3,7 +3,7 @@ import { DataReviewResponseDTO } from "./review-response.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { IApiResponse } from "src/utils/api-response.interface";
 
-export class PaginationReviewResponseDTO implements IApiResponse{
+export class PaginationReviewResponseDTO implements IApiResponse {
   @ApiProperty({
     description: 'Message of the response',
     type: String,
