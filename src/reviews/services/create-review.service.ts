@@ -1,4 +1,4 @@
-import { HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ReviewRepository } from '../repositories/rewiew.repository';
 import { CreateReviewDTO, CreateReviewResponseDTO } from '../dtos/create-review.dto';
 import { IMovieProvider, MovieData } from 'src/movies/movie.provider.interface';
@@ -16,7 +16,6 @@ export class CreateReviewService {
     const movies = await this.movieProvider.getByTitle(review.title);
     if (!movies) {
       throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
         message: "Movie not found"
       })
     }
@@ -25,7 +24,6 @@ export class CreateReviewService {
 
     if (!perfectMatch) {
       throw new NotFoundException({
-        status: HttpStatus.NOT_FOUND,
         message: "Movie not found",
         data: {
           similarMovies: movies.map(movie => movie.Title)

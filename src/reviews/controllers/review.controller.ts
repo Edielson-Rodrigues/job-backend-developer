@@ -3,6 +3,7 @@ import { CreateReviewService } from '../services/create-review.service';
 import { CreateReviewDTO, CreateReviewResponseDTO } from '../dtos/create-review.dto';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteReviewService } from '../services/delete-review.service';
+import { NumericStringPipe } from 'src/utils/pipes/numeric-string.pipe';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
@@ -46,7 +47,7 @@ export class ReviewsController {
       message: "Review not found",
     }
   })
-  public async delete(@Param('id') id: string) {
+  public async delete(@Param('id', NumericStringPipe) id: number) {
     return await this.deleteReviewService.execute(id);
   }
 }
