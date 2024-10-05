@@ -10,7 +10,7 @@ export class UpdateReviewService {
     private readonly reviewRepository: ReviewRepository
   ) {}
   
-  public async execute(id: number, review: UpdateReviewDto) {
+  public async execute(id: number, review: UpdateReviewDto): Promise<ReviewResponseDTO> {
     const currentReview = await this.reviewRepository.findOneById(id);
     if (!currentReview) {
       throw new NotFoundException({
