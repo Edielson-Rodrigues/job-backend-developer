@@ -21,9 +21,9 @@ export class ReviewEntity implements IReview {
   
   @Column({
     name: 'movie_release',
-    nullable: false
+    nullable: true
   })
-  movieRelease: string;
+  movieRelease: Date;
 
   @Column({
     type: 'float',

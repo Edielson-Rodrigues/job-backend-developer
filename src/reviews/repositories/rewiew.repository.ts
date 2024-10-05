@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ReviewEntity } from "../entity/review.entity";
-import { FindManyOptions, Repository } from "typeorm";
+import { Repository } from "typeorm";
+import { IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
 
 @Injectable()
 export class ReviewRepository {
@@ -13,8 +14,10 @@ export class ReviewRepository {
     return await this.reviewRepository.save(review);
   }
 
-  async find(filters?: FindManyOptions<ReviewEntity>): Promise<ReviewEntity[]> {
-    return await this.reviewRepository.find(filters);
+  async find(filters?: IPaginationOptions): Promise<Pagination<ReviewEntity>> {
+    const queryBuilder = this.reviewRepository.createQueryBuilder("review");
+
+    return await paginate<ReviewEntity>(queryBuilder, filters);
   }
   
   async findOneById(id: number): Promise<ReviewEntity> {

@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IApiResponse } from "src/utils/api-response.interface";
 import { ReviewEntity } from "../entity/review.entity";
 
-class DataDTO {
+export class DataReviewResponseDTO {
   @ApiProperty({
     description: 'Id of the review',
     type: Number,
@@ -28,7 +28,7 @@ class DataDTO {
     description: 'Information about the movie',
     type: Object,
     example: {
-      release: '1994',
+      release: new Date('1994-10-14T00:00:00.000Z'),
       imdbRating: 9.3,
       genre: 'Drama',
       duration: '142 min',
@@ -52,7 +52,7 @@ class DataDTO {
     }
   })
   movie: {
-    release: string;
+    release: Date;
     imdbRating: number;
     genre: string;
     duration: string;
@@ -65,7 +65,6 @@ class DataDTO {
     }>;
   }
 }
-
 export class ReviewResponseDTO implements IApiResponse {
   @ApiProperty({
     description: 'Message of the response',
@@ -76,11 +75,11 @@ export class ReviewResponseDTO implements IApiResponse {
 
   @ApiProperty({
     description: 'Data of the response',
-    type: DataDTO
+    type: DataReviewResponseDTO
   })
-  data: DataDTO;
+  data: DataReviewResponseDTO;
 
-  constructor(review: ReviewEntity, message: string) {
+  constructor(review: ReviewEntity, message?: string) {
     this.message = message;
     this.data = {
       id: review.id,

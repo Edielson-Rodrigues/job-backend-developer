@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "class-validator";
+import { IsArray, IsDateString, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "class-validator";
 import { Rating } from "../entity/review.interface";
 import { Type } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
@@ -27,8 +27,8 @@ export class UpdateReviewDto {
     type: String,
     example: '1994'
   })
-  @IsNotEmpty({ message: 'Release date is required' })
-  movieRelease: string;
+  @IsDateString()
+  movieRelease: Date;
 
   @ApiProperty({
     description: 'IMDb rating of the movie',

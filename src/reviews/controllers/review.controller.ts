@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateReviewService } from '../services/create-review.service';
 import { CreateReviewDTO } from '../dtos/create-review.dto';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { DeleteReviewService } from '../services/delete-review.service';
 import { NumericStringPipe } from 'src/utils/pipes/numeric-string.pipe';
 import { UpdateReviewService } from '../services/update-review.service';
 import { UpdateReviewDto } from '../dtos/update-review.dto';
 import { ReviewResponseDTO } from '../dtos/review-response.dto';
 import { GetReviewService } from '../services/get-review.service';
+import { PaginationPipe } from 'src/utils/pipes/pagination.pipe';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
@@ -51,8 +52,18 @@ export class ReviewsController {
       message: "Review not found"
     }
   })
-  public async get(@Param('id', NumericStringPipe) id: number) {
+  public async getById(@Param('id', NumericStringPipe) id: number) {
     return await this.getReviewService.byId(id);
+  }
+
+  @Get()
+  @ApiQuery({ name: "page", required: false, type: Number })
+  @ApiQuery({ name: "limit", required: false, type: Number })
+  @ApiQuery({ name: "filter", required: false, type: String, description: "Filter reviews by movie title | actor | director" })
+  @ApiQuery({ name: "sort", required: false, type: String, description: "Sort reviews by movie by released date | rating" })
+  @ApiQuery({ name: "order", required: false, type: String, description: "Order by asc | desc" })
+  public async get(@Query('page', PaginationPipe) page: number, @Query('limit', PaginationPipe) limit: number) {
+    return await this.getReviewService.all(page, limit);
   }
 
   @Delete("/:id")
