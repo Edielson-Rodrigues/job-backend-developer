@@ -17,6 +17,15 @@ export class ReviewRepository implements IReviewRepository {
 
   async find(argumentsPagination: IPaginationOptions, filters: ReviewFilters): Promise<Pagination<ReviewEntity>> {
     const queryBuilder = this.reviewRepository.createQueryBuilder("review");
+    if (filters.filter) {
+      queryBuilder
+        .where("review.title LIKE :filter", { filter: `%${filters.filter}%` })
+        .orWhere("review.actors LIKE :filter", { filter: `%${filters.filter}%` })
+        .orWhere("review.director LIKE :filter", { filter: `%${filters.filter}%` });
+    }
+    if (filters.order && filters.orderBy) {
+      queryBuilder.orderBy(`review.${filters.orderBy}`, filters.order);
+    }
 
     return await paginate<ReviewEntity>(queryBuilder, argumentsPagination);
   }

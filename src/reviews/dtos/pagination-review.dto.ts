@@ -26,7 +26,7 @@ export class PaginationReviewResponseDTO implements IApiResponse{
 
   @ApiProperty({
     description: 'Data of the response',
-    type: Array<DataReviewResponseDTO>
+    type: () => [DataReviewResponseDTO]
   })
   data: DataReviewResponseDTO[];
 

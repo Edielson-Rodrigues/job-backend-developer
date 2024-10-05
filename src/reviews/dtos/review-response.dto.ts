@@ -83,13 +83,13 @@ export class ReviewResponseDTO implements IApiResponse {
     this.message = message;
     this.data = {
       id: review.id,
-      movieTitle: review.movieTitle,
+      movieTitle: review.title,
       notes: review.notes,
       movie: {
-        release: review.movieRelease,
+        release: review.releaseDate,
         imdbRating: review.imdbRating,
-        genre: review.movieGenre,
-        duration: review.movieDuration,
+        genre: review.genre,
+        duration: review.duration,
         director: review.director,
         actors: review.actors,
         writer: review.writer,

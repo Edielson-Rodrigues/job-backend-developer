@@ -1,11 +1,11 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from "@nestjs/common";
 
-const argumentsOrder = ['asc', 'desc'];
+const argumentsOrder = ['ASC', 'DESC'];
 
 export class OrderPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    if (!value && argumentsOrder.includes(value)) {
-      return value;
+    if (!value || argumentsOrder.includes(value.toUpperCase())) {
+      return value?.toUpperCase();
     }
 
     throw new BadRequestException({

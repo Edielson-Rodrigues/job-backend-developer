@@ -34,12 +34,12 @@ export class CreateReviewService {
 
     const allInformationMovie = await this.movieProvider.getById(perfectMatch.imdbID);
     const newReview = await this.reviewRepository.create(new ReviewEntity({
-      movieTitle: perfectMatch.Title,
+      title: perfectMatch.Title,
       notes: review.notes,
-      movieRelease: isNaN(new Date(allInformationMovie.Released).getTime()) ? null : new Date(allInformationMovie.Released),
+      releaseDate: isNaN(new Date(allInformationMovie.Released).getTime()) ? null : new Date(allInformationMovie.Released),
       imdbRating: (/^-?\d+(\.\d+)?$/).test(allInformationMovie.imdbRating) ? Number(allInformationMovie.imdbRating) : null,
-      movieGenre: allInformationMovie.Genre,
-      movieDuration: allInformationMovie.Runtime,
+      genre: allInformationMovie.Genre,
+      duration: allInformationMovie.Runtime,
       director: allInformationMovie.Director,
       actors: allInformationMovie.Actors,
       views: 0,

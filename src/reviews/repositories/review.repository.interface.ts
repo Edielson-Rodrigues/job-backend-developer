@@ -3,8 +3,8 @@ import { ReviewEntity } from "../entity/review.entity";
 
 export type ReviewFilters = {
   filter: string;
-  sort: string;
-  order: string;
+  orderBy: "releaseDate" | "rating";
+  order: "ASC" | "DESC";
 };
 
 export interface IReviewRepository {

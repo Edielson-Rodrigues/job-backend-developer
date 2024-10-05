@@ -11,7 +11,7 @@ export class ReviewEntity implements IReview {
     length: 255,
     nullable: false
   })
-  movieTitle: string;
+  title: string;
 
   @Column({
     type: 'text',
@@ -20,10 +20,10 @@ export class ReviewEntity implements IReview {
   notes: string;
   
   @Column({
-    name: 'movie_release',
+    name: 'movie_release_date',
     nullable: true
   })
-  movieRelease: Date;
+  releaseDate: Date;
 
   @Column({
     type: 'float',
@@ -37,13 +37,13 @@ export class ReviewEntity implements IReview {
     length: 255,
     nullable: false
   })
-  movieGenre: string;
+  genre: string;
 
   @Column({
     name: 'duration',
     nullable: false
   })
-  movieDuration: string;
+  duration: string;
 
   @Column({
     type: 'varchar',

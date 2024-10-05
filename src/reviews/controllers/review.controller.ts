@@ -9,8 +9,10 @@ import { UpdateReviewDto } from '../dtos/update-review.dto';
 import { ReviewResponseDTO } from '../dtos/review-response.dto';
 import { GetReviewService } from '../services/get-review.service';
 import { PaginationPipe } from 'src/utils/pipes/pagination.pipe';
-import { FilterReviewPipe } from 'src/utils/pipes/filter-review.pipe';
-import { SortReviewPipe } from 'src/utils/pipes/sort-review.pipe';
+import { ReviewFilters } from '../repositories/review.repository.interface';
+import { OrderByReviewPipe } from 'src/utils/pipes/orderBy-review.pipe';
+import { OrderPipe } from 'src/utils/pipes/order.pipe';
+import { PaginationReviewResponseDTO } from '../dtos/pagination-review.dto';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
@@ -61,24 +63,41 @@ export class ReviewsController {
   @Get()
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
-  @ApiQuery({ name: "filter", required: false, type: String, example: "actor", description: "Filter reviews by movie (title | actor | director)" })
-  @ApiQuery({ name: "sort", required: false, type: String, example: "released", description: "Sort reviews by movie (releasedDate | rating)" })
-  @ApiQuery({ name: "order", required: false, type: String, example: "asc", description: "Order by (asc | desc)" })
+  @ApiQuery({ 
+    name: "filter", 
+    required: false, 
+    type: String, 
+    description: "Value to filter in fields (title | actors | director)" 
+  })
+  @ApiQuery({ 
+    name: "orderBy", 
+    required: false, 
+    type: String, 
+    enum: ["releasedDate", "imdbRating"], 
+    description: "Order by reviews" 
+  })
+  @ApiQuery({ 
+    name: "order", 
+    required: false, 
+    type: String, 
+    enum: ["ASC", "DESC"], 
+    description: "Order"
+  })
+  @ApiOkResponse({
+    description: 'Reviews found successfully',
+    type: PaginationReviewResponseDTO
+  })
   public async get(
     @Query('page', PaginationPipe) page: number,
     @Query('limit', PaginationPipe) limit: number,
-    @Query('filter', FilterReviewPipe) filter: string,
-    @Query('sort', SortReviewPipe) sort: string,
-    @Query('order') order: string
+    @Query('filter') filter: string,
+    @Query('orderBy', OrderByReviewPipe) orderBy: string,
+    @Query('order', OrderPipe) order: string
   ) {
-    return await this.getReviewService.all({
-      page,
-      limit
-    }, {
-      filter,
-      sort,
-      order
-    });
+    return await this.getReviewService.all(
+      { page, limit }, 
+      { filter, orderBy, order } as ReviewFilters
+    );
   }
 
   @Delete("/:id")

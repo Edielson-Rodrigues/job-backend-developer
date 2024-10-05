@@ -10,12 +10,12 @@ export class Rating {
 
 export interface IReview {
   id?: number;
-  movieTitle: string;
+  title: string;
   notes: string;
-  movieRelease: Date;
+  releaseDate: Date;
   imdbRating: number;
-  movieGenre: string;
-  movieDuration: string;
+  genre: string;
+  duration: string;
   director: string;
   actors: string;
   views: number; // ! TODO: add trigger to increment views
