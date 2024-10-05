@@ -27,7 +27,7 @@ export class ReviewEntity implements IReview {
 
   @Column({
     type: 'float',
-    name: 'imdb_rating',
+    name: 'movie_imdb_rating',
     nullable: true
   })
   imdbRating: number;
@@ -40,12 +40,13 @@ export class ReviewEntity implements IReview {
   genre: string;
 
   @Column({
-    name: 'duration',
+    name: 'movie_duration',
     nullable: false
   })
   duration: string;
 
   @Column({
+    name: 'movie_director',
     type: 'varchar',
     length: 255,
     nullable: false
@@ -53,12 +54,14 @@ export class ReviewEntity implements IReview {
   director: string;
 
   @Column({
+    name: 'movie_actors',
     length: 255,
     nullable: false
   })
   actors: string;
 
   @Column({
+    name: 'movie_writer',
     type: 'varchar',
     length: 255,
     nullable: false
@@ -66,6 +69,7 @@ export class ReviewEntity implements IReview {
   writer: string;
 
   @Column({
+    name: 'movie_language',
     type: 'json',
     nullable: false
   })
