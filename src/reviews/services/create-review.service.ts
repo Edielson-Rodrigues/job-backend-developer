@@ -1,9 +1,8 @@
 import { HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ReviewRepository } from '../repositories/rewiew.repository';
-import { CreateReviewDTO } from '../dtos/create-review.dto';
+import { CreateReviewDTO, CreateReviewResponseDTO } from '../dtos/create-review.dto';
 import { IMovieProvider, MovieData } from 'src/movies/movie.provider.interface';
 import { LevenshteinDistance } from 'natural';
-import { ApiResponse } from 'src/utils/api-response.type';
 import { ReviewEntity } from '../entity/review.entity';
 
 @Injectable()
@@ -13,7 +12,7 @@ export class CreateReviewService {
     @Inject("IMovieProvider") private readonly movieProvider: IMovieProvider
   ) {}
 
-  public async execute(review: CreateReviewDTO): Promise<ApiResponse> {
+  public async execute(review: CreateReviewDTO): Promise<CreateReviewResponseDTO> {
     const movies = await this.movieProvider.getByTitle(review.title);
     if (!movies) {
       throw new NotFoundException({
@@ -49,11 +48,7 @@ export class CreateReviewService {
       ratings: allInformationMovie.Ratings.map(rating => ({ source: rating.Source, value: rating.Value })),
     }));
 
-    return {
-      status: HttpStatus.CREATED,
-      message: "Review created successfully",
-      data: (new CreateReviewDTO).toResponse(newReview)
-    }
+    return new CreateReviewResponseDTO(newReview, "Review created successfully");
   }
 
   private findBestMatch(title: string, movies: MovieData[]): MovieData {
