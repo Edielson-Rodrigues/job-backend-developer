@@ -1,7 +1,7 @@
-import { Injectable, Module } from "@nestjs/common";
-import { getDataSourceToken, getRepositoryToken, InjectRepository, TypeOrmModule } from "@nestjs/typeorm";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
 import { ReviewEntity } from "../entity/review.entity";
-import { DataSource, FindManyOptions, Repository } from "typeorm";
+import { FindManyOptions, Repository } from "typeorm";
 
 @Injectable()
 export class ReviewRepository {
@@ -26,19 +26,3 @@ export class ReviewRepository {
     return this.reviewRepository.findOne({ where: { id } });
   }
 }
-
-@Module({
-  imports: [TypeOrmModule.forFeature([ReviewEntity])],
-  providers: [
-    ReviewRepository,
-    {
-      provide: getRepositoryToken(ReviewEntity),
-      inject: [getDataSourceToken()],
-      useFactory(datasource: DataSource) {
-        return datasource.getRepository(ReviewEntity);
-      },
-    },
-  ],
-  exports: [ReviewRepository],
-})
-export class ReviewRepositoryModule {}

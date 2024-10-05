@@ -7,11 +7,11 @@ export class ReviewEntity implements IReview {
   id: number;
 
   @Column({
+    name: 'movie_title',
     length: 255,
-    nullable: false,
-    unique: true
+    nullable: false
   })
-  title: string;
+  movieTitle: string;
 
   @Column({
     type: 'text',

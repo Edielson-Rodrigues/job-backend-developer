@@ -1,6 +1,6 @@
 export interface IReview {
   id: number;
-  title: string;
+  movieTitle: string;
   notes: string;
   movieRelease: Date;
   imdbRating: number;
