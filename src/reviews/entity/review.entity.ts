@@ -91,7 +91,7 @@ export class ReviewEntity implements IReview {
   })
   updatedAt: Date;
 
-  constructor(review: Omit<IReview, "id" | "view" | "updatedAt" | "createdAt">) {
+  constructor(review: Omit<IReview, "view">) {
     Object.assign(this, review);
   }
 }

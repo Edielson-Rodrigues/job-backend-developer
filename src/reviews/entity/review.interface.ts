@@ -1,6 +1,11 @@
-export type Rating = {
-  source: string,
-  value: string
+import { IsNotEmpty } from "class-validator";
+
+export class Rating {
+  @IsNotEmpty()
+  source: string;
+
+  @IsNotEmpty()
+  value: string;
 }
 
 export interface IReview {
@@ -16,6 +21,6 @@ export interface IReview {
   views: number; // ! TODO: add trigger to increment views
   writer: string;
   ratings: Array<Rating>;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

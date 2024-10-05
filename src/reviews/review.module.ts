@@ -6,6 +6,7 @@ import { ReviewRepository } from './repositories/rewiew.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReviewEntity } from './entity/review.entity';
 import { DeleteReviewService } from './services/delete-review.service';
+import { UpdateReviewService } from './services/update-review.service';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DeleteReviewService } from './services/delete-review.service';
   controllers: [ReviewsController],
   providers: [
     CreateReviewService,
+    UpdateReviewService,
     DeleteReviewService,  
     ReviewRepository
   ]

@@ -1,22 +1,26 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
 import { CreateReviewService } from '../services/create-review.service';
-import { CreateReviewDTO, CreateReviewResponseDTO } from '../dtos/create-review.dto';
+import { CreateReviewDTO } from '../dtos/create-review.dto';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteReviewService } from '../services/delete-review.service';
 import { NumericStringPipe } from 'src/utils/pipes/numeric-string.pipe';
+import { UpdateReviewService } from '../services/update-review.service';
+import { UpdateReviewDto } from '../dtos/update-review.dto';
+import { ReviewResponseDTO } from '../dtos/review-response.dto';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
 export class ReviewsController {
   constructor(
     private readonly createReviewService: CreateReviewService,
-    private readonly deleteReviewService: DeleteReviewService
+    private readonly deleteReviewService: DeleteReviewService,
+    private readonly updateReviewService: UpdateReviewService
   ) {}
   
   @Post()
   @ApiCreatedResponse({
     description: 'Review created successfully',
-    type: CreateReviewResponseDTO
+    type: ReviewResponseDTO
   })
   @ApiNotFoundResponse({
     description: 'Movie not found',
@@ -49,5 +53,20 @@ export class ReviewsController {
   })
   public async delete(@Param('id', NumericStringPipe) id: number) {
     return await this.deleteReviewService.execute(id);
+  }
+
+  @Put("/:id")
+  @ApiOkResponse({
+    description: 'Review updated successfully',
+    type: ReviewResponseDTO
+  })
+  @ApiNotFoundResponse({
+    description: 'Review not found',
+    example: {
+      message: "Review not found"
+    }
+  })
+  public async update(@Param('id', NumericStringPipe) id: number, @Body() review: UpdateReviewDto) {
+    return await this.updateReviewService.execute(id, review);
   }
 }
