@@ -25,4 +25,12 @@ export class ReviewRepository {
     await this.reviewRepository.update(id, review);
     return this.reviewRepository.findOne({ where: { id } });
   }
+
+  async delete(id: number): Promise<number> {
+    const { affected } = await this.reviewRepository.delete({
+      id
+    });
+
+    return affected;
+  }
 }

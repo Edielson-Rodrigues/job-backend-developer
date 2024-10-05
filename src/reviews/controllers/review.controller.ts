@@ -1,17 +1,19 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { CreateReviewService } from '../services/create-review.service';
 import { CreateReviewDTO, CreateReviewResponseDTO } from '../dtos/create-review.dto';
-import { ApiNotFoundResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { DeleteReviewService } from '../services/delete-review.service';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
 export class ReviewsController {
   constructor(
     private readonly createReviewService: CreateReviewService,
+    private readonly deleteReviewService: DeleteReviewService
   ) {}
   
-  @Post("")
-  @ApiResponse({
+  @Post()
+  @ApiCreatedResponse({
     description: 'Review created successfully',
     type: CreateReviewResponseDTO
   })
@@ -29,5 +31,22 @@ export class ReviewsController {
   })
   public async create(@Body() review: CreateReviewDTO) {
     return await this.createReviewService.execute(review);
+  }
+
+  @Delete("/:id")
+  @ApiOkResponse({
+    description: 'Review deleted successfully',
+    example: {
+      message: "Review deleted successfully"
+    }
+  })
+  @ApiNotFoundResponse({
+    description: 'Review not found',
+    example: {
+      message: "Review not found",
+    }
+  })
+  public async delete(@Param('id') id: string) {
+    return await this.deleteReviewService.execute(id);
   }
 }

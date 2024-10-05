@@ -5,6 +5,7 @@ import { MovieModule } from 'src/movies/movie.module';
 import { ReviewRepository } from './repositories/rewiew.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReviewEntity } from './entity/review.entity';
+import { DeleteReviewService } from './services/delete-review.service';
 
 @Module({
   imports: [
@@ -12,6 +13,10 @@ import { ReviewEntity } from './entity/review.entity';
     MovieModule
   ],
   controllers: [ReviewsController],
-  providers: [CreateReviewService, ReviewRepository]
+  providers: [
+    CreateReviewService,
+    DeleteReviewService,  
+    ReviewRepository
+  ]
 })
 export class ReviewModule {}

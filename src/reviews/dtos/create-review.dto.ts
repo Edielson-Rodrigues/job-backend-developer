@@ -23,7 +23,7 @@ export class CreateReviewDTO {
   notes: string;
 }
 
-export class ReviewResponseDTO {
+class ReviewResponseDTO {
   @ApiProperty({
     description: 'Title of the movie reviewed',
     type: String,
