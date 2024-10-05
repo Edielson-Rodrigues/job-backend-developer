@@ -7,10 +7,9 @@ import { NotFoundException } from '@nestjs/common';
 
 describe('[Unit] GetReviewService', () => {
   let getReviewService: GetReviewService;
-  let reviewRepositoryMock: jest.Mocked<IReviewRepository>;
+  let mockReviewRepository: jest.Mocked<IReviewRepository>;
 
   beforeEach(async () => {
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GetReviewService,
@@ -25,7 +24,7 @@ describe('[Unit] GetReviewService', () => {
     }).compile();
 
     getReviewService = module.get<GetReviewService>(GetReviewService);
-    reviewRepositoryMock = module.get('IReviewRepository');
+    mockReviewRepository = module.get('IReviewRepository');
   });
 
   describe('.byId()',  () => {
@@ -33,7 +32,7 @@ describe('[Unit] GetReviewService', () => {
       // arrange
       const id = faker.number.int();
       const mockReview = generateReviewEntity();
-      reviewRepositoryMock.findOneById.mockResolvedValue(mockReview);
+      mockReviewRepository.findOneById.mockResolvedValue(mockReview);
       const expected = {
         message: 'Review found successfully',
         data: {
@@ -63,7 +62,7 @@ describe('[Unit] GetReviewService', () => {
     it('should throw NotFoundException when the review is not found by ID', async () => {
       // arrange 
       const id = faker.number.int();
-      reviewRepositoryMock.findOneById.mockResolvedValue(null);
+      mockReviewRepository.findOneById.mockResolvedValue(null);
 
       // act and assert
       await expect(() => getReviewService.byId(id)).rejects.toThrow(NotFoundException);
@@ -88,7 +87,7 @@ describe('[Unit] GetReviewService', () => {
         meta: mockMeta,
         items: mocksReviews
       }
-      reviewRepositoryMock.find.mockResolvedValue(mockReturnRepository);
+      mockReviewRepository.find.mockResolvedValue(mockReturnRepository);
       // act
       const result = await getReviewService.all({ page: 1, limit: 10 }, {
         filter: 'filter',
