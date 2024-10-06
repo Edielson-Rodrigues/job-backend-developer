@@ -1,15 +1,15 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ReviewRepository } from '../repositories/rewiew.repository';
 import { CreateReviewDTO } from '../dtos/create-review.dto';
 import { IMovieProvider, MovieData } from 'src/movies/movie.provider.interface';
 import { LevenshteinDistance } from 'natural';
 import { ReviewEntity } from '../entity/review.entity';
 import { ReviewResponseDTO } from '../dtos/review-response.dto';
+import { IReviewRepository } from '../repositories/review.repository.interface';
 
 @Injectable()
 export class CreateReviewService {
   constructor(
-    @Inject("IReviewRepository") private readonly reviewRepository: ReviewRepository,
+    @Inject("IReviewRepository") private readonly reviewRepository: IReviewRepository,
     @Inject("IMovieProvider") private readonly movieProvider: IMovieProvider
   ) {}
 

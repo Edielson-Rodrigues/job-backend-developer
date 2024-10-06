@@ -86,14 +86,16 @@ describe('[Unit] GetReviewService', () => {
       const mockReturnRepository = {
         meta: mockMeta,
         items: mocksReviews
-      }
+      };
       mockReviewRepository.find.mockResolvedValue(mockReturnRepository);
+
       // act
       const result = await getReviewService.all({ page: 1, limit: 10 }, {
         filter: 'filter',
         orderBy: 'rating',
         order: 'ASC'
       });
+      
       // assert
       expect(result).toEqual({
         message: 'Reviews found successfully',

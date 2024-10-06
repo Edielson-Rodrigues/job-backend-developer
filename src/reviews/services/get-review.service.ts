@@ -1,14 +1,13 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { ReviewRepository } from "../repositories/rewiew.repository";
 import { ReviewResponseDTO } from "../dtos/review-response.dto";
 import { PaginationReviewResponseDTO } from "../dtos/pagination-review.dto";
 import { IPaginationOptions } from "nestjs-typeorm-paginate";
-import { ReviewFilters } from "../repositories/review.repository.interface";
+import { IReviewRepository, ReviewFilters } from "../repositories/review.repository.interface";
 
 @Injectable()
 export class GetReviewService {
   constructor(
-    @Inject("IReviewRepository") private readonly reviewRepository: ReviewRepository
+    @Inject("IReviewRepository") private readonly reviewRepository: IReviewRepository
   ) {}
 
   public async byId(id: number): Promise<ReviewResponseDTO> {

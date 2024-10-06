@@ -1,13 +1,13 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { ReviewRepository } from "../repositories/rewiew.repository";
 import { ReviewEntity } from "../entity/review.entity";
 import { UpdateReviewDto } from "../dtos/update-review.dto";
 import { ReviewResponseDTO } from "../dtos/review-response.dto";
+import { IReviewRepository } from "../repositories/review.repository.interface";
 
 @Injectable()
 export class UpdateReviewService {
   constructor(
-    @Inject("IReviewRepository") private readonly reviewRepository: ReviewRepository
+    @Inject("IReviewRepository") private readonly reviewRepository: IReviewRepository
   ) {}
   
   public async execute(id: number, review: UpdateReviewDto): Promise<ReviewResponseDTO> {
