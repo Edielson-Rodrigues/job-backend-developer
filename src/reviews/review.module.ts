@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ReviewController } from './controllers/review.controller';
 import { CreateReviewService } from './services/create-review.service';
-import { MovieModule } from 'src/movies/movie.module';
+import { MovieModule } from '../movies/movie.module';
 import { ReviewRepository } from './repositories/rewiew.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReviewEntity } from './entity/review.entity';

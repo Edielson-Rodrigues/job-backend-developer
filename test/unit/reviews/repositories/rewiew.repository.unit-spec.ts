@@ -1,11 +1,11 @@
 import { Test } from "@nestjs/testing";
+import { faker } from "@faker-js/faker/.";
+import { Repository } from "typeorm";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { IReviewRepository } from "../../../../src/reviews/repositories/review.repository.interface";
 import { ReviewRepository } from "../../../../src/reviews/repositories/rewiew.repository";
 import { ReviewEntity } from "../../../../src/reviews/entity/review.entity";
 import { generateReviewEntity } from "../../../utils/generators/review.generator";
-import { faker } from "@faker-js/faker/.";
-import { Repository } from "typeorm";
 
 const mockQueryBuilder: jest.Mocked<{ 
   where: jest.Mock,

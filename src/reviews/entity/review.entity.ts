@@ -83,14 +83,14 @@ export class ReviewEntity implements IReview {
 
   @Column({
     name: 'created_at',
-    type: 'timestamp',
+    type: 'datetime',
     nullable: false
   })
   createdAt: Date;
 
   @Column({
     name: 'updated_at',
-    type: 'timestamp',
+    type: 'datetime',
     nullable: true
   })
   updatedAt: Date;

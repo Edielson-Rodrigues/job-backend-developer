@@ -15,4 +15,15 @@ export const TypeORMConfig: TypeOrmModuleAsyncOptions = {
     migrationsTableName: 'migrations_TypeORM',
     migrationsTransactionMode: 'all'
   })
-};
+}; 
+
+export const TypeORMConfigTest: TypeOrmModuleAsyncOptions = {
+  useFactory: () => ({
+    type: 'sqlite',
+    database: ':memory:',
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    synchronize: true,
+    dropSchema: true,
+    autoLoadEntities: true
+  })
+}

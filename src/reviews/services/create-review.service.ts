@@ -45,6 +45,7 @@ export class CreateReviewService {
       views: 0,
       writer: allInformationMovie.Writer,
       ratings: allInformationMovie.Ratings.map(rating => ({ source: rating.Source, value: rating.Value })),
+      createdAt: new Date(),
     }));
 
     return new ReviewResponseDTO(newReview, "Review created successfully");
