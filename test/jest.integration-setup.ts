@@ -1,17 +1,36 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../src/app.module";
+import { Test } from "@nestjs/testing";
 import { TypeORMConfigTest } from "../src/config/typeorm.config";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
+import { AppModule } from "../src/app.module";
+import { IMovieProvider } from "../src/movies/movie.provider.interface";
 
-let mockAppModule: TestingModule;
+export const mockMovieProvider: jest.Mocked<IMovieProvider> = {
+  getByTitle: jest.fn(),
+  getById: jest.fn()
+};
+
+let mockAppModule: INestApplication;
 
 beforeAll(async () => {
-  mockAppModule = await Test.createTestingModule({
+  const testingModule = await Test.createTestingModule({
     imports: [
       TypeOrmModule.forRootAsync(TypeORMConfigTest),
-      AppModule,
+      AppModule      
     ]
-  }).compile();
+  })
+  .overrideProvider('IMovieProvider')
+  .useValue(mockMovieProvider)
+  .compile();
+  
+  mockAppModule = testingModule.createNestApplication();
+  mockAppModule.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true
+  }))
+
+  await mockAppModule.init();
 });
 
 afterAll(async () => {
