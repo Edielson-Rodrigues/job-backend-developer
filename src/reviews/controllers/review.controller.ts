@@ -3,20 +3,20 @@ import { CreateReviewService } from '../services/create-review.service';
 import { CreateReviewDTO } from '../dtos/create-review.dto';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { DeleteReviewService } from '../services/delete-review.service';
-import { NumericStringPipe } from 'src/utils/pipes/numeric-string.pipe';
+import { NumericStringPipe } from '../../utils/pipes/numeric-string.pipe';
 import { UpdateReviewService } from '../services/update-review.service';
 import { UpdateReviewDto } from '../dtos/update-review.dto';
 import { ReviewResponseDTO } from '../dtos/review-response.dto';
 import { GetReviewService } from '../services/get-review.service';
-import { PaginationPipe } from 'src/utils/pipes/pagination.pipe';
+import { PaginationPipe } from '../../utils/pipes/pagination.pipe';
 import { ReviewFilters } from '../repositories/review.repository.interface';
-import { OrderByReviewPipe } from 'src/utils/pipes/orderBy-review.pipe';
-import { OrderPipe } from 'src/utils/pipes/order.pipe';
+import { OrderByReviewPipe } from '../../utils/pipes/orderBy-review.pipe';
+import { OrderPipe } from '../../utils/pipes/order.pipe';
 import { PaginationReviewResponseDTO } from '../dtos/pagination-review.dto';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
-export class ReviewsController {
+export class ReviewController {
   constructor(
     private readonly createReviewService: CreateReviewService,
     private readonly deleteReviewService: DeleteReviewService,

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ReviewsController } from './controllers/review.controller';
+import { ReviewController } from './controllers/review.controller';
 import { CreateReviewService } from './services/create-review.service';
 import { MovieModule } from 'src/movies/movie.module';
 import { ReviewRepository } from './repositories/rewiew.repository';
@@ -14,7 +14,7 @@ import { GetReviewService } from './services/get-review.service';
     TypeOrmModule.forFeature([ReviewEntity]),
     MovieModule
   ],
-  controllers: [ReviewsController],
+  controllers: [ReviewController],
   providers: [
     CreateReviewService,
     UpdateReviewService,
