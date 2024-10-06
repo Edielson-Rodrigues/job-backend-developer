@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ReviewEntity } from '../../../src/reviews/entity/review.entity';
+
 const genres = [
   'Action', 
   'Adventure', 
@@ -23,7 +24,7 @@ const genres = [
   'Western'
 ];
 
-export function generateReviewEntity() {
+export function generateReviewEntity(): ReviewEntity {
   return new ReviewEntity({
     id: faker.number.int(),
     actors: faker.person.firstName(),

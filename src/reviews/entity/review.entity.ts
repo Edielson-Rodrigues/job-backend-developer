@@ -95,7 +95,7 @@ export class ReviewEntity implements IReview {
   })
   updatedAt: Date;
 
-  constructor(review: Omit<IReview, "view">) {
+  constructor(review: Partial<IReview>) {
     Object.assign(this, review);
   }
 }

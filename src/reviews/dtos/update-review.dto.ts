@@ -12,7 +12,7 @@ export class UpdateReviewDto {
   })
   @IsNotEmpty({ message: 'Title is required' })
   @MaxLength(255, { message: 'Title is too long' })
-  movieTitle: string;
+  title: string;
 
   @ApiProperty({
     description: 'Notes about the movie',
@@ -28,7 +28,7 @@ export class UpdateReviewDto {
     example: '1994'
   })
   @IsDateString()
-  movieRelease: Date;
+  releaseDate: Date;
 
   @ApiProperty({
     description: 'IMDb rating of the movie',
@@ -44,7 +44,7 @@ export class UpdateReviewDto {
     example: 'Drama'
   })
   @IsNotEmpty({ message: 'Genre is required' })
-  movieGenre: string;
+  genre: string;
 
   @ApiProperty({
     description: 'Duration of the movie',
@@ -52,7 +52,7 @@ export class UpdateReviewDto {
     example: '142 min'
   })
   @IsNotEmpty({ message: 'Duration is required' })
-  movieDuration: string;
+  duration: string;
 
   @ApiProperty({
     description: 'Director of the movie',

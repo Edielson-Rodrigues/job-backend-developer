@@ -28,6 +28,23 @@ describe('[Unit] DeleteReviewService', () => {
   });
 
   describe('.execute()', () => {
+    it('should return a message when the review is deleted successfully', async () => {
+      // arrange
+      const mockIdReview = faker.number.int();
+      const mockReview = generateReviewEntity();
+      mockReviewRepository.findOneById.mockResolvedValue(mockReview);
+      mockReviewRepository.delete.mockResolvedValue(1);
+      const expected = {
+        message: 'Review deleted successfully'
+      };
+
+      // act
+      const result = await deleteReviewService.execute(mockIdReview);
+
+      // assert
+      expect(result).toEqual(expected);
+    });
+    
     it('should throw NotFoundException when the review is not found by ID', async () => {
       // arrange
       const mocKIdReview = faker.number.int();
@@ -46,23 +63,6 @@ describe('[Unit] DeleteReviewService', () => {
 
       // act and assert
       expect(() => deleteReviewService.execute(mockIdReview)).rejects.toThrow(BadRequestException);
-    });
-
-    it('should return a message when the review is deleted successfully', async () => {
-      // arrange
-      const mockIdReview = faker.number.int();
-      const mockReview = generateReviewEntity();
-      mockReviewRepository.findOneById.mockResolvedValue(mockReview);
-      mockReviewRepository.delete.mockResolvedValue(1);
-      const expected = {
-        message: 'Review deleted successfully'
-      };
-
-      // act
-      const result = await deleteReviewService.execute(mockIdReview);
-
-      // assert
-      expect(result).toEqual(expected);
     });
   });
 });
