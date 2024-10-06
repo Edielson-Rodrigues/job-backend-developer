@@ -35,7 +35,7 @@ export class ReviewRepository implements IReviewRepository {
   }
 
   async update(id: number, review: ReviewEntity): Promise<ReviewEntity> {
-    await this.reviewRepository.update(id, review);
+    await this.reviewRepository.update({ id }, review);
     return this.reviewRepository.findOne({ where: { id } });
   }
 
