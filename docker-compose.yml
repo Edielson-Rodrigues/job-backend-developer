@@ -1,13 +1,13 @@
 services:
   api:
-    env_file: ./.env.production
+    env_file: ./.env
     container_name: api
     build:
       context: ./
     ports:
       - $API_PORT:$API_PORT
     environment:
-      - DB_HOST=$DB_HOST
+      - DB_HOST=db
       - DB_USER=$DB_USERNAME
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
@@ -17,7 +17,7 @@ services:
         condition: service_healthy
 
   db:
-    env_file: ./.env.production
+    env_file: ./.env
     container_name: db
     image: mysql:5.7
     ports:

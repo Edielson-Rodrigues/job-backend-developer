@@ -32,6 +32,6 @@ const TypeORMConfigTest: TypeOrmModuleAsyncOptions = {
   })
 }
 
-export function getConfigTypeOrm(environment: string) {
+export function getConfigTypeOrm(environment: string): TypeOrmModuleAsyncOptions {
   return environment === 'test' ? TypeORMConfigTest : TypeORMConfig;
 }
