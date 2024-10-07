@@ -1,6 +1,4 @@
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { Test } from "@nestjs/testing";
-import { TypeORMConfigTest } from "../src/infra/config/typeorm.config";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { AppModule } from "../src/app.module";
 import { IMovieProvider } from "../src/movies/movie.provider.interface";
@@ -13,10 +11,10 @@ export const mockMovieProvider: jest.Mocked<IMovieProvider> = {
 let mockAppModule: INestApplication;
 
 beforeAll(async () => {
+  process.env.ENVIRONMENT = 'test';
   const testingModule = await Test.createTestingModule({
     imports: [
-      TypeOrmModule.forRootAsync(TypeORMConfigTest),
-      AppModule      
+      AppModule
     ]
   })
   .overrideProvider('IMovieProvider')

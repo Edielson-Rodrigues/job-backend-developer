@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeORMConfig } from './infra/config/typeorm.config';
 import { MovieModule } from './movies/movie.module';
 import { ReviewModule } from './reviews/review.module';
+import { getConfigTypeOrm } from './infra/config/typeorm.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
+      envFilePath: '.env'
     }),
-    TypeOrmModule.forRootAsync(TypeORMConfig),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => getConfigTypeOrm(process.env.ENVIRONMENT).useFactory()
+    }),
     ReviewModule,
     MovieModule
   ],
@@ -18,3 +21,4 @@ import { ReviewModule } from './reviews/review.module';
   providers: [],
 })
 export class AppModule {}
+

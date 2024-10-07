@@ -1,6 +1,6 @@
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 
-export const TypeORMConfig: TypeOrmModuleAsyncOptions = {
+const TypeORMConfig: TypeOrmModuleAsyncOptions = {
   useFactory: () => ({
     type: 'mysql',
     host: process.env.DB_HOST,
@@ -18,7 +18,7 @@ export const TypeORMConfig: TypeOrmModuleAsyncOptions = {
   })
 }; 
 
-export const TypeORMConfigTest: TypeOrmModuleAsyncOptions = {
+const TypeORMConfigTest: TypeOrmModuleAsyncOptions = {
   useFactory: () => ({
     type: 'sqlite',
     database: ':memory:',
@@ -30,4 +30,8 @@ export const TypeORMConfigTest: TypeOrmModuleAsyncOptions = {
     migrationsTransactionMode: 'all',
     migrations: [__dirname + '/../migrations-test/*{.ts,.js}']
   })
+}
+
+export function getConfigTypeOrm(environment: string) {
+  return environment === 'test' ? TypeORMConfigTest : TypeORMConfig;
 }
