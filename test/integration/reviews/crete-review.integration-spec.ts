@@ -1,7 +1,7 @@
 import * as request from 'supertest';
-import { mockAppModule, mockMovieProvider } from '../jest.integration-setup';
 import { HttpStatus } from '@nestjs/common';
 import { faker } from '@faker-js/faker/.';
+import { mockAppModule, mockMovieProvider } from '../../jest.integration-setup';
 
 describe('[Integration] CreateReview', () => {
   it('should return response with status Created and review with type ReviewResponseDTO', async () => {

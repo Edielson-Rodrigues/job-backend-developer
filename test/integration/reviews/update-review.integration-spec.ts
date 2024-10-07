@@ -1,8 +1,8 @@
 import * as request from 'supertest';
 import { faker } from "@faker-js/faker/.";
-import { mockAppModule } from "../jest.integration-setup";
 import { HttpStatus } from '@nestjs/common';
-import { generateReviewEntity } from '../utils/generators/review.generator';
+import { mockAppModule } from "../../jest.integration-setup";
+import { generateReviewEntity } from '../../utils/generators/review.generator';
 
 describe('[Integration] UpdateReview', () => {
   it('should return response with status OK and review updated successfully', async () => {

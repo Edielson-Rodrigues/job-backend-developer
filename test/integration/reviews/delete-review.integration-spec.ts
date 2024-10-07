@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import { faker } from "@faker-js/faker/.";
-import { mockAppModule } from "../jest.integration-setup";
 import { HttpStatus } from '@nestjs/common';
+import { mockAppModule } from "../../jest.integration-setup";
 
 describe('[Integration] DeleteReview', () => {
   it('should return response with status OK and message Review deleted successfully', async () => {

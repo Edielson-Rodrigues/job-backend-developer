@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import { faker } from "@faker-js/faker/.";
-import { mockAppModule } from "../jest.integration-setup";
 import { HttpStatus } from '@nestjs/common';
+import { mockAppModule } from "../../jest.integration-setup";
 
 describe('[Integration] GetReview', () => {
   describe('GET /movie-reviews', () => {
