@@ -73,7 +73,7 @@ export class ReviewController {
     name: "orderBy", 
     required: false, 
     type: String, 
-    enum: ["releasedDate", "imdbRating"], 
+    enum: ["releaseDate", "imdbRating"], 
     description: "Order by reviews" 
   })
   @ApiQuery({ 

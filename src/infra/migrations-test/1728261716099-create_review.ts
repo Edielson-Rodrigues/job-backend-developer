@@ -33,8 +33,9 @@ export class CreateReview1728261716099 implements MigrationInterface {
       '[{"value": "8.8/10", "source": "Internet Movie Database"}, {"value": "87%", "source": "Rotten Tomatoes"}, {"value": "74/100", "source": "Metacritic"}]',
       0,
       '2024-10-07 10:00:00',
-      '2024-10-07 10:05:00');
-    `);
+      '2024-10-07 10:05:00'
+    );
+  `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

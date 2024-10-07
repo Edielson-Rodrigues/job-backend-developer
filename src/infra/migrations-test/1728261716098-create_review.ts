@@ -35,7 +35,7 @@ export class CreateReview1728261716098 implements MigrationInterface {
       '2024-10-07 09:00:00',
       '2024-10-07 09:05:00'
     );
-    `);
+  `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
