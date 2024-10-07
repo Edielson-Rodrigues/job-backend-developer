@@ -1,123 +1,114 @@
-# Dolado: Teste prático para Backend
+# Teste técnico Dolado -  API Nest
 
-## Introdução
-Este é o teste que nós da [Dolado](http://www.dolado.com.br) usamos para avaliar os candidatos de vagas para Backend. Do júnior ao sênior, todos são avaliados pelo mesmo teste mas por critérios distintos. Se você estiver participando de um processo seletivo para nossa equipe, certamente em algum momento receberá este link, mas caso você tenha chego aqui "por acaso", sinta-se convidado a desenvolver nosso teste e enviar uma mensagem para nós no e-mail `tech@dolado.com.br`.
+O projeto foi desenvolvido utilizando NestJS com TypeORM, visando atender ao teste técnico proposto pela Dolado.
 
-A ideia deste teste é ser acessível para todos, mas de acordo com a vaga olhamos com maior rigor para alguns pontos. De todo modo, esperamos que no decorrer deste desafio você tenha uma ótima experiência e esteja satisfeito com o resultado final antes de enviá-lo. Por este motivo, não colocamos um prazo para a realização do teste e esperamos que você dedique o tempo necessário até estar satisfeito com o resultado.
+## Experiência de Desenvolvimento
 
-Nós fazemos isso esperando que as pessoas mais iniciantes entendam qual o modelo de profissional que temos por aqui e que buscamos para o nosso time. Portanto, se você estiver se candidatando a uma vaga mais iniciante, não se assuste e faça o melhor que você puder!
+De modo geral, a conclusão desse teste foi uma experiência muito positiva. O desafio se revelou intuitivo e estimulante, despertando várias ideias criativas sobre como poderia expandir o projeto. Em termos de desenvolvimento, o processo foi tranquilo, uma vez que utilizei tecnologias e práticas que já aplico no meu dia a dia como programador.
 
-## Instruções
-Você deverá criar um `fork` deste projeto e desenvolver todo o teste em cima dele. Esperamos encontrar no *README* principal do seu repositório uma descrição minuciosa sobre:
-- Como foi a experiência no decorrer de todo o processo de desenvolvimento?
-- Quais foram as principais decisões tomadas?
-- Como foi organizado o projeto em termos de estrutura de pastas e arquivos?
-- Instruções de como rodar o projeto.
+## Principais tomadas de decisões
 
-Lembre-se que este é um teste técnico e não um concurso público, portanto, não existe apenas uma resposta correta. Mostre que você é bom e nos impressione, mas não esqueça do objetivo do projeto.
+1. Implementação de validações utilizando **ClassTransformer** e **ClassValidator**, além da criação de **Pipes**, para limitar e evitar erros gerados por parâmetros inválidos em `Params`, `Query` ou `Body` das requisições.
+    
+2. Utilização da biblioteca `nestjs-typeorm-paginate` para lidar com paginação de maneira simples e dinâmica.
+    
+3. Padronização das respostas da API, garantindo que toda resposta de sucesso siga o formato `{message: string, data: object}`, sendo `data` um campo opcional para alguns endpoints, como no caso do endpoint de deleção, que retorna apenas uma `message`. Para as respostas de erro, foram implementados diferentes tipos de retorno, de acordo com a origem do erro:
+    **Exemplos**:
+    
+    - Erros causados por DTOs (campos inválidos no body):
+      ```json
+        {
+            "message": [
+                "Genre is required",
+                "Director is required"
+            ],
+            "error": "Bad Request",
+            "statusCode": 400
+        }
+      ```
+    - Erros causados por parâmetros inválidos na URL (seja em query ou params):
+      ```json
+        {
+            "message": "The value {{id}} is not a number"
+        }    
+      ```
+      Ou quando há valores predefinidos para o campo
+      ```json
+        {
+        "message": "The value {{ss}} is not a valid argument for the {{order}}",
+        "data": {
+            "validArguments": [
+                "ASC",
+                "DESC"
+            ]
+         }
+      }
+      ```
 
-## O Desafio
-Você é um programador backend que já trabalha a muito tempo na área e, apesar de trabalhar duro durante a semana, seu hobby preferido sempre foi avaliar filmes. Tendo feito isso durante anos, suas anotações começaram a se perder entre os arquivos de um computador e outro e você teve a brilhante ideia de organizá-las numa api simples, de modo que pudesse sempre voltar e encontrar facilmente suas anotações sobre os filmes já vistos.
+5. Quando uma tentativa de criar uma review é realizada, mas o título exato não é encontrado, a API OmDb retorna uma lista de títulos semelhantes. Essa lista de filmes relacionados é incluída na resposta da requisição, permitindo que o usuário selecione um título similar caso desejado, assim como ocorre em sites de streaming.
+    ```json
+        {
+        "message": "Movie not found",
+        "data": {
+            "similarMovies": [
+                "Harry Potter and the Deathly Hallows: Part 2",
+                "Harry Potter and the Deathly Hallows: Part 1",
+                "Harry Potter and the Deathly Hallows: Part II",
+                "Harry Potter and the Deathly Hallows: Part I",
+                "Harry Potter and the Deathly Hallows Part 1 (2010) and Part 2 (2011) Featuring Brizzy Voices",
+                "Harry Potter and the Deathly Hallows Part 1 (2010)"
+            ]
+           }        
+        }
+    ```
+   
+6. Para armazenar a quantidade de visualizações de cada título, as funções `getBy` e `all` dentro do service `GetReviewService` possuem uma chamada assíncrona que não utiliza `await`, permitindo que o incremento das visualizações ocorra em paralelo, sem bloquear o fluxo principal.
 
-No intuito de desenvolver a api, como qualquer bom programador, você ficou com preguiça de preencher repetidamente uma infinidade de dados sobre cada filme assistido e resolveu simplificar a vida integrando com um serviço já existente ([The Open Movie Database](https://www.omdbapi.com/)).
+## Estrutura
+A aplicação foi organizada seguindo o conceito de módulos do NestJS, com uma separação clara das responsabilidades. Além dos módulos principais como `reviews` e `movies`, a estrutura inclui pastas dedicadas para:
 
-Entre todas as suas anotações de filmes, encontramos também um esboço da api que você irá montar.
+- **infra**: onde são armazenadas as migrations e a configuração do TypeORM.
+- **config**: responsável por armazenar as configurações do Swagger.
+- **utils**: contém implementações e utilitários que são usados de forma global na aplicação.
 
-Começando por uma rota de criação de anotações: nela, a ideia é integrar com a api do OMDB e salvar todas as informações que julgar relevante para o banco de dados, trazendo obrigatoriamente a data de lançamento (campo "Released" da api do OMDB) e avaliação (campo "imdbRating" da api do OMDB), em conjunto com o "body" abaixo.  
+Além dessa organização, os princípios da Clean Architecture foram aplicados, especialmente a inversão de controle e a injeção de dependência. Essas práticas foram implementadas entre os serviços e repositórios/providers, utilizando chaves de injeção ao invés da implementação concreta, o que reduz o acoplamento e facilita a manutenção do código.
+
+Os serviços foram organizados em arquivos separados conforme suas responsabilidades. Por exemplo, há um serviço dedicado para criar reviews, outro para atualizar, e assim sucessivamente.
+
+Na parte de testes, foi adotada a metodologia AAA (Arrange, Act, Assert), que divide os testes em três fases principais: 
+
+1. **Arrange**: preparação do cenário de teste.
+2. **Act**: execução da ação que será testada.
+3. **Assert**: verificação dos resultados esperados.
+
+## Instruções de como rodar o projeto.
+
+- **Teste unitários**
 ```
-Endpoint: '/movie-reviews'
-Método: 'POST'
-Body: {
-    "title": string; // título é o que será usado para buscar as demais informações no OMDB
-    "notes": string; // minhas anotações
-}
-```
-
-Uma sugestão é usar o seguinte endpoint do OMDB para buscar as informações extras sobre o título em questão:
-```
-curl --location 'http://www.omdbapi.com/?apikey=aa9290ba&t=assassins%2Bcreed'
-```
-
----
-
-Em seguida, uma rota para listar as suas anotações. Nesta rota, você mesmo deixou como futura melhoria os filtros na query e a ordenação:
-```
-Endpoint: '/movie-reviews'
-Método: 'GET'
-```
-**Opcional**
-- Ter a capacidade de ordenar por data de lançamento e avaliação, de maneira ascendente ou descendente.
-- Capacidade de filtrar as suas anotações por título, atores ou diretores (caso preciso, incluir os demais campos no banco de dados).
-
----
-
-Listar uma anotação específica:
-```
-Endpoint: '/movie-reviews/:id'
-Método: 'GET'
-```
-
----
-
-Atualizar uma anotação:
-```
-Endpoint: '/movie-reviews/:id'
-Método: 'PUT'
-```
-
----
-
-Deletar uma anotação:
-```
-Endpoint: '/movie-reviews/:id'
-Método: 'DELETE'
-```
-
----
-
-### Extra
-
-Opcionalmente, encontramos algumas ideias de implementação que você deixou anotado mas acabou não tendo tempo de levar adiante:
-```
-TODO: Colocar paginação nas rotas de listagens
-TODO: Ter uma boa documentação de todas as rotas da api e disponibilizá-las no endpoint "/docs"
-TODO: Disponibilizar a api na internet. Para isso, gostaria de contar as visualizações que cada uma das minhas anotações vêm tendo. Criar também uma outra rota de listagem pra mostrar as mais visualizadas.
-```
-
-### Instruções de como gerar a chave de API
-Você pode gerar a sua chave de api diretamente no site do [OMDB Api Keys](https://www.omdbapi.com/apikey.aspx). Um email de confirmação deve chegar na sua conta com as credenciais e você só precisa clicar no link para ativá-las.
-
-Caso queira utilizar a nossa:
-```
-apikey: aa9290ba
+    npm run test:unit
 ```
 
-### Requisitos do projeto
-- API Rest em Typescript desenvolvida utilizando o framework [NestJS](https://nestjs.com/)
-- Utilização do [Typeorm](https://docs.nestjs.com/recipes/sql-typeorm) para se comunicar com o banco de dados
-- Banco de dados [MySQL](https://www.mysql.com/)
+- **Teste integração**
+```
+    npm run test:integration  
+```
 
+- **Todos os testes**
+```
+    npm run test  
+```
 
-### O que nós ficaríamos felizes de ver em seu teste
-* Testes unitários
-* Body, query e params com algum tipo de validação
-* Documentação de todos os endpoints da api
-* Prettier e eslint configurados no projeto
+- Rodar api localmente
+  - Necessário ter o Mysql na máquina
+  - Criar cópia do .env.example e nomear como .env
+  ```
+    npm run start:dev
+  ``` 
 
-### O que nos impressionaria
-* Testes de integração
-* Aplicação facilmente rodável usando docker-compose
-* Tratamento de erros bem estruturado
-* Uso adequado (caso necessário) de interceptors e guards
-* Uso de repositórios para se comunicar com o banco
-
-### O que nós não gostaríamos
-* Descobrir que não foi você quem fez seu teste
-* Ver commits grandes, sem muita explicação nas mensagens em seu repositório 
-* Encontrar um um commit com as dependências de NPM
-
-## O que avaliaremos de seu teste
-* Histórico de commits do git
-* As instruções de como rodar o projeto
-* Organização, semântica, estrutura, legibilidade, manutenibilidade do seu código
-* Alcance dos objetivos propostos
+- Rodar api no docker
+    - Necessário ter o docker instalado na máquina
+    - Criar cópia do .env.example e nomear como .env
+    ```
+        docker compose up -d
+    ```
+  (Obs: o projeto utiliza a imagem mysql:5.7)
