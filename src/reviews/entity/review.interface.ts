@@ -18,7 +18,7 @@ export interface IReview {
   duration: string;
   director: string;
   actors: string;
-  views: number; // ! TODO: add trigger to increment views
+  views: number;
   writer: string;
   ratings: Array<Rating>;
   createdAt?: Date;
