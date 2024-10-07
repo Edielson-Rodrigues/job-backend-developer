@@ -5,7 +5,7 @@ import { CreateReviewService } from "../../../../src/reviews/services/create-rev
 import { DeleteReviewService } from "../../../../src/reviews/services/delete-review.service";
 import { GetReviewService } from "../../../../src/reviews/services/get-review.service";
 import { UpdateReviewService } from "../../../../src/reviews/services/update-review.service";
-import { PaginationReviewResponseDTO } from "../../../../src/reviews/dtos/pagination-review.dto";
+import { PaginationReviewResponseDTO, PaginationViewReviewResponseDTO } from "../../../../src/reviews/dtos/pagination-review.dto";
 import { GetViewsReviewService } from "../../../../src/reviews/services/get-views-review.service";
 
 describe('[Unit] ReviewController', () => {
@@ -14,6 +14,7 @@ describe('[Unit] ReviewController', () => {
   let mockUpdateReviewService: jest.Mocked<UpdateReviewService>;
   let mockDeleteReviewService: jest.Mocked<DeleteReviewService>;
   let mockGetReviewService: jest.Mocked<GetReviewService>;
+  let mockGetViewsReviewService: jest.Mocked<GetViewsReviewService>;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -58,6 +59,7 @@ describe('[Unit] ReviewController', () => {
     mockUpdateReviewService = module.get(UpdateReviewService);
     mockDeleteReviewService = module.get(DeleteReviewService);
     mockGetReviewService = module.get(GetReviewService);
+    mockGetViewsReviewService = module.get(GetViewsReviewService);
   });
 
   describe('.create()', () => {
@@ -268,6 +270,47 @@ describe('[Unit] ReviewController', () => {
       );
       expect(mockGetReviewService.all).toHaveBeenCalledTimes(1);
       expect(mockReviewResponse).toEqual(mockReviewResponse);
+    });
+  });
+
+  describe('.getViews()', () => {
+    it('should to call GetViewsReviewService.execute with correct params', async () => {
+      // arrange
+      const params = {
+        page: faker.number.int(),
+        limit: faker.number.int(),
+        order: faker.helpers.arrayElement(['ASC', 'DESC']),
+      }
+
+      const mockViewsResponse: PaginationViewReviewResponseDTO = {
+        message: 'Reviews found successfully',
+        meta: {
+          itemCount: 1,
+          totalItems: 1,
+          itemsPerPage: 10,
+          totalPages: 1,
+          currentPage: 1
+        },
+        data: [
+          {
+            id: faker.number.int(),
+            movieTitle: faker.lorem.word(),
+            notes: faker.lorem.paragraph()
+          }
+        ]
+      };
+      mockGetViewsReviewService.execute.mockResolvedValue(mockViewsResponse);
+
+      // act
+      await reviewController.getViews(params.page, params.limit, params.order);
+
+      // assert
+      expect(mockGetViewsReviewService.execute).toHaveBeenCalledWith(
+        { page: params.page, limit: params.limit },
+        params.order
+      );
+      expect(mockGetViewsReviewService.execute).toHaveBeenCalledTimes(1);
+      expect(mockViewsResponse).toEqual(mockViewsResponse);
     });
   });
 });

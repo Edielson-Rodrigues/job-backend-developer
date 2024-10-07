@@ -31,7 +31,7 @@ export class CreateReview1728261716098 implements MigrationInterface {
       'Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving',
       'Lana Wachowski, Lilly Wachowski',
       '[{"value": "8.7/10", "source": "Internet Movie Database"}, {"value": "87%", "source": "Rotten Tomatoes"}, {"value": "73/100", "source": "Metacritic"}]',
-      0,
+      6,
       '2024-10-07 09:00:00',
       '2024-10-07 09:05:00'
     );

@@ -31,7 +31,7 @@ export class CreateReview1728261716097 implements MigrationInterface {
       'Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler',
       'Stephen King, Frank Darabont',
       '[{"value": "9.3/10", "source": "Internet Movie Database"}, {"value": "91%", "source": "Rotten Tomatoes"}, {"value": "80/100", "source": "Metacritic"}]',
-      0,
+      1,
       '2024-10-06 18:50:59',
       '2024-10-06 18:52:10'
     );

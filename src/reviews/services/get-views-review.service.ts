@@ -15,7 +15,8 @@ export class GetViewsReviewService {
       message: 'Reviews found successfully',
       meta: reviews.meta,
       data: reviews.items.map(review => ({
-        title: review.title,
+        id: review.id,
+        movieTitle: review.title,
         views: review.views
       }))
     });
