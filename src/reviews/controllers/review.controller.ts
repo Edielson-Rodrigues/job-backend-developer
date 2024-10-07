@@ -10,7 +10,7 @@ import { ReviewResponseDTO } from '../dtos/review-response.dto';
 import { GetReviewService } from '../services/get-review.service';
 import { PaginationPipe } from '../../utils/pipes/pagination.pipe';
 import { ReviewFilters } from '../repositories/review.repository.interface';
-import { OrderByReviewPipe } from '../../utils/pipes/orderBy-review.pipe';
+import { OrderByReviewPipe } from '../../utils/pipes/order-by-review.pipe';
 import { OrderPipe } from '../../utils/pipes/order.pipe';
 import { PaginationReviewResponseDTO, PaginationViewReviewResponseDTO } from '../dtos/pagination-review.dto';
 import { GetViewsReviewService } from '../services/get-views-review.service';
@@ -55,7 +55,11 @@ export class ReviewController {
     description: 'Views found successfully',
     type: PaginationViewReviewResponseDTO
   })
-  public async getViews(@Query('page', PaginationPipe) page: number, @Query('limit', PaginationPipe) limit: number, @Query('order', OrderPipe) order: string) {
+  public async getViews(
+    @Query('page', PaginationPipe) page: number, 
+    @Query('limit', PaginationPipe) limit: number, 
+    @Query('order', OrderPipe) order: string
+  ) {
     return await this.getViewsReviewService.execute({
       page, limit
     }, (order?.toUpperCase() as 'ASC' | 'DESC' ?? 'DESC'));
