@@ -98,17 +98,20 @@ Na parte de testes, foi adotada a metodologia AAA (Arrange, Act, Assert), que di
     npm run test  
 ```
 
-- Rodar api localmente
+- Rodar projeto localmente
   - Necessário ter o Mysql na máquina
   - Criar cópia do .env.example e nomear como .env
   ```
     npm run start:dev
   ``` 
 
-- Rodar api no docker
+- Rodar projeto docker
     - Necessário ter o docker instalado na máquina
     - Criar cópia do .env.example e nomear como .env
     ```
         docker compose up -d
     ```
-  (Obs: o projeto utiliza a imagem mysql:5.7)
+- Documentação
+    Para acessar a documentação Swagger, acesse: [http://localhost:3000/docs](http://localhost:3000/docs)
+
+**Obs:** o projeto utiliza a imagem mysql:5.7
