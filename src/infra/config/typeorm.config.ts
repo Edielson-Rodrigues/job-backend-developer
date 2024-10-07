@@ -10,7 +10,7 @@ export const TypeORMConfig: TypeOrmModuleAsyncOptions = {
     password: process.env.DB_PASSWORD,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}'],
-    synchronize: true, // ! TODO: verify this in production
+    synchronize: true,
     migrationsRun: true,
     migrationsTableName: 'migrations_TypeORM',
     migrationsTransactionMode: 'all'
@@ -21,12 +21,12 @@ export const TypeORMConfigTest: TypeOrmModuleAsyncOptions = {
   useFactory: () => ({
     type: 'sqlite',
     database: ':memory:',
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
     synchronize: false,
     dropSchema: true,
     migrationsRun: true,
     migrationsTableName: 'migrations_TypeORM',
     migrationsTransactionMode: 'all',
-    migrations: [__dirname + '/../infra/migrations-test/*{.ts,.js}']
+    migrations: [__dirname + '/../migrations-test/*{.ts,.js}']
   })
 }

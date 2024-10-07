@@ -1,6 +1,6 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Test } from "@nestjs/testing";
-import { TypeORMConfigTest } from "../src/config/typeorm.config";
+import { TypeORMConfigTest } from "../src/infra/config/typeorm.config";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { AppModule } from "../src/app.module";
 import { IMovieProvider } from "../src/movies/movie.provider.interface";
@@ -31,9 +31,6 @@ beforeAll(async () => {
   }))
 
   await mockAppModule.init();
-
-  // const connection = testingModule.get<DataSource>(DataSource);
-  // await connection.runMigrations();
 });
 
 afterAll(async () => {

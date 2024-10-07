@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { OmdbProvider } from './movie.provider';
+import { OmdbProvider } from './omdb.provider';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
