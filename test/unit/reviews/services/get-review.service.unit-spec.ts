@@ -17,7 +17,8 @@ describe('[Unit] GetReviewService', () => {
           provide: 'IReviewRepository',
           useValue: { 
             findOneById: jest.fn(),
-            find: jest.fn()
+            find: jest.fn(),
+            updateViews: jest.fn()
           }
         }
       ]

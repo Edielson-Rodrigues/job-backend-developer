@@ -8,6 +8,7 @@ import { ReviewEntity } from './entity/review.entity';
 import { DeleteReviewService } from './services/delete-review.service';
 import { UpdateReviewService } from './services/update-review.service';
 import { GetReviewService } from './services/get-review.service';
+import { GetViewsReviewService } from './services/get-views-review.service';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GetReviewService } from './services/get-review.service';
     CreateReviewService,
     UpdateReviewService,
     GetReviewService,
+    GetViewsReviewService,
     DeleteReviewService,  
     {
       provide: 'IReviewRepository',

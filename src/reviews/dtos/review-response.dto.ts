@@ -65,6 +65,30 @@ export class DataReviewResponseDTO {
     }>;
   }
 }
+
+export class DataViewReviewResponseDTO {
+  @ApiProperty({
+    description: 'Id of the review',
+    type: Number,
+    example: 1
+  })
+  id: number;
+
+  @ApiProperty({
+    description: 'Title of the movie reviewed',
+    type: String,
+    example: 'The Shawshank Redemption'
+  })
+  movieTitle: string;
+
+  @ApiProperty({
+    description: 'Notes about the movie',
+    type: String,
+    example: 'This movie is amazing'
+  })
+  notes: string;
+}
+
 export class ReviewResponseDTO implements IApiResponse {
   @ApiProperty({
     description: 'Message of the response',

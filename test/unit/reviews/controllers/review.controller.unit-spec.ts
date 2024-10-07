@@ -6,6 +6,7 @@ import { DeleteReviewService } from "../../../../src/reviews/services/delete-rev
 import { GetReviewService } from "../../../../src/reviews/services/get-review.service";
 import { UpdateReviewService } from "../../../../src/reviews/services/update-review.service";
 import { PaginationReviewResponseDTO } from "../../../../src/reviews/dtos/pagination-review.dto";
+import { GetViewsReviewService } from "../../../../src/reviews/services/get-views-review.service";
 
 describe('[Unit] ReviewController', () => {
   let reviewController: ReviewController;
@@ -41,6 +42,12 @@ describe('[Unit] ReviewController', () => {
           useValue: {
             byId: jest.fn(),
             all: jest.fn()
+          }
+        },
+        {
+          provide: GetViewsReviewService,
+          useValue: {
+            execute: jest.fn()
           }
         }
       ]

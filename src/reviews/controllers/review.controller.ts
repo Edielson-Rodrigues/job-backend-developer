@@ -12,7 +12,8 @@ import { PaginationPipe } from '../../utils/pipes/pagination.pipe';
 import { ReviewFilters } from '../repositories/review.repository.interface';
 import { OrderByReviewPipe } from '../../utils/pipes/orderBy-review.pipe';
 import { OrderPipe } from '../../utils/pipes/order.pipe';
-import { PaginationReviewResponseDTO } from '../dtos/pagination-review.dto';
+import { PaginationReviewResponseDTO, PaginationViewReviewResponseDTO } from '../dtos/pagination-review.dto';
+import { GetViewsReviewService } from '../services/get-views-review.service';
 
 @Controller('/movie-reviews')
 @ApiTags('Movie Reviews')
@@ -21,7 +22,8 @@ export class ReviewController {
     private readonly createReviewService: CreateReviewService,
     private readonly deleteReviewService: DeleteReviewService,
     private readonly updateReviewService: UpdateReviewService,
-    private readonly getReviewService: GetReviewService
+    private readonly getReviewService: GetReviewService,
+    private readonly getViewsReviewService: GetViewsReviewService
   ) {}
   
   @Post()
@@ -45,6 +47,20 @@ export class ReviewController {
     return await this.createReviewService.execute(review);
   }
 
+  @Get("/views")
+  @ApiQuery({ name: "page", required: false, type: Number })
+  @ApiQuery({ name: "limit", required: false, type: Number })
+  @ApiQuery({ name: "order", required: false, type: String, enum: ["ASC", "DESC"] })
+  @ApiOkResponse({
+    description: 'Views found successfully',
+    type: PaginationViewReviewResponseDTO
+  })
+  public async getViews(@Query('page', PaginationPipe) page: number, @Query('limit', PaginationPipe) limit: number, @Query('order', OrderPipe) order: string) {
+    return await this.getViewsReviewService.execute({
+      page, limit
+    }, (order?.toUpperCase() as 'ASC' | 'DESC' ?? 'DESC'));
+  }
+
   @Get("/:id")
   @ApiOkResponse({
     description: 'Review found successfully',
@@ -59,7 +75,7 @@ export class ReviewController {
   public async getById(@Param('id', NumericStringPipe) id: number) {
     return await this.getReviewService.byId(id);
   }
-
+  
   @Get()
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })

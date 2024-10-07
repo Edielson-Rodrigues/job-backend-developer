@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ReviewEntity } from "../entity/review.entity";
 import { Repository } from "typeorm";
 import { IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
-import { IReviewRepository, ReviewFilters } from "./review.repository.interface";
+import { IReviewRepository, ReviewFilters, UpdateViewsDTO } from "./review.repository.interface";
 
 @Injectable()
 export class ReviewRepository implements IReviewRepository {
@@ -37,6 +37,16 @@ export class ReviewRepository implements IReviewRepository {
   async update(id: number, review: ReviewEntity): Promise<ReviewEntity> {
     await this.reviewRepository.update({ id }, review);
     return this.reviewRepository.findOne({ where: { id } });
+  }
+
+  async updateViews(values: Array<UpdateViewsDTO>): Promise<number> {
+    const query = values.reduce((acc, value) => {
+      acc += `UPDATE review SET views = ${value.views} WHERE id = ${value.id};`;
+      return acc;
+    }, '');
+    
+    await this.reviewRepository.query(query);
+    return values.length;
   }
 
   async delete(id: number): Promise<number> {

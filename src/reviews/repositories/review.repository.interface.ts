@@ -3,8 +3,13 @@ import { ReviewEntity } from "../entity/review.entity";
 
 export type ReviewFilters = {
   filter: string;
-  orderBy: "releaseDate" | "rating";
+  orderBy: "releaseDate" | "rating" | "views";
   order: "ASC" | "DESC";
+};
+
+export type UpdateViewsDTO = {
+  id: number, 
+  views: number
 };
 
 export interface IReviewRepository {
@@ -37,6 +42,14 @@ export interface IReviewRepository {
    * @returns {Promise<ReviewEntity>}
    */
   update(id: number, review: ReviewEntity): Promise<ReviewEntity>;
+
+  /**
+   * @description Update views of reviews
+   * @param {Array<{ id: number, views: number }>} values
+   *
+   * @returns {Promise<number>} 
+   */
+  updateViews(values: Array<UpdateViewsDTO>): Promise<number>;
 
   /**
    * @description Delete a review
