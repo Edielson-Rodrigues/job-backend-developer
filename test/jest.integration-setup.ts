@@ -31,6 +31,9 @@ beforeAll(async () => {
   }))
 
   await mockAppModule.init();
+
+  // const connection = testingModule.get<DataSource>(DataSource);
+  // await connection.runMigrations();
 });
 
 afterAll(async () => {
