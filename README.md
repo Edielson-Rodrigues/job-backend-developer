@@ -112,6 +112,6 @@ Na parte de testes, foi adotada a metodologia AAA (Arrange, Act, Assert), que di
         docker compose up -d
     ```
 - Documentação
-    Para acessar a documentação Swagger, acesse: [http://localhost:3000/docs](http://localhost:3000/docs)
+    - Para acessar a documentação Swagger, acesse: [http://localhost:3000/docs](http://localhost:3000/docs)
 
 **Obs:** o projeto utiliza a imagem mysql:5.7
