@@ -31,7 +31,6 @@ describe('[Unit] GetReviewService', () => {
   describe('.byId()',  () => {
     it('should return the review with type ReviewResponseDTO when the ID is valid and the review is found', async () => {
       // arrange
-      const id = faker.number.int();
       const mockReview = generateReviewEntity();
       mockReviewRepository.findOneById.mockResolvedValue(mockReview);
       const expected = {
@@ -54,10 +53,15 @@ describe('[Unit] GetReviewService', () => {
       }
 
       // act
-      const result = await getReviewService.byId(id);
+      const result = await getReviewService.byId(mockReview.id);
       
       // assert
       expect(result).toEqual(expected);
+      expect(mockReviewRepository.updateViews).toHaveBeenCalledWith([{
+        id: mockReview.id,
+        views: mockReview.views + 1
+      }]);
+      expect(mockReviewRepository.updateViews).toHaveBeenCalledTimes(1);
     })
 
     it('should throw NotFoundException when the review is not found by ID', async () => {
@@ -90,6 +94,30 @@ describe('[Unit] GetReviewService', () => {
       };
       mockReviewRepository.find.mockResolvedValue(mockReturnRepository);
 
+      const mockResultData = [];
+      const mockUpdateViews = [];
+      for (const review of mocksReviews) {
+        mockResultData.push({
+          id: review.id,
+          movieTitle: review.title,
+          notes: review.notes,
+          movie: {
+            release: review.releaseDate,
+            imdbRating: review.imdbRating,
+            genre: review.genre,
+            duration: review.duration,
+            director: review.director,
+            actors: review.actors,
+            writer: review.writer,
+            ratings: review.ratings
+          }
+        });
+        mockUpdateViews.push({
+          id: review.id,
+          views: review.views + 1
+        });
+      }
+
       // act
       const result = await getReviewService.all({ page: 1, limit: 10 }, {
         filter: 'filter',
@@ -101,24 +129,9 @@ describe('[Unit] GetReviewService', () => {
       expect(result).toEqual({
         message: 'Reviews found successfully',
         meta: mockMeta,
-        data: mocksReviews.map(review => {
-          return {
-            id: review.id,
-            movieTitle: review.title,
-            notes: review.notes,
-            movie: {
-              release: review.releaseDate,
-              imdbRating: review.imdbRating,
-              genre: review.genre,
-              duration: review.duration,
-              director: review.director,
-              actors: review.actors,
-              writer: review.writer,
-              ratings: review.ratings
-            }
-          }
-        })
+        data: mockResultData
       });
+      expect(mockReviewRepository.updateViews).toHaveBeenCalledWith(mockUpdateViews);
     });
   });
 }); 

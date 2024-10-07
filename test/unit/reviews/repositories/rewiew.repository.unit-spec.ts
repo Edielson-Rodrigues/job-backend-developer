@@ -38,6 +38,7 @@ describe('[Unit] ReviewRepository', () => {
             findOne: jest.fn(),
             update: jest.fn(),
             delete: jest.fn(),
+            query: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder)
           }
         }
@@ -168,6 +169,28 @@ describe('[Unit] ReviewRepository', () => {
       expect(mockTypeOrmRepository.delete).toHaveBeenCalledWith({ id: mockId });
       expect(mockTypeOrmRepository.delete).toHaveBeenCalledTimes(1);
       expect(result).toBe(1);
+    });
+  });
+
+  describe('.updateViews()', () => {
+    it('should call the query method of the typeOrmRepository with the correct params', async () => {
+      // arrange
+      const mockValues = [
+        { id: faker.number.int(), views: faker.number.int() },
+        { id: faker.number.int(), views: faker.number.int() }
+      ];
+      mockTypeOrmRepository.query.mockResolvedValue(null);
+
+      // act
+      const result = await reviewRepository.updateViews(mockValues);
+
+      // assert
+      expect(mockTypeOrmRepository.query).toHaveBeenCalledWith(
+        `UPDATE review SET views = ${mockValues[0].views} WHERE id = ${mockValues[0].id};` +
+        `UPDATE review SET views = ${mockValues[1].views} WHERE id = ${mockValues[1].id};`
+      );
+      expect(mockTypeOrmRepository.query).toHaveBeenCalledTimes(1);
+      expect(result).toBe(mockValues.length);
     });
   });
 });
